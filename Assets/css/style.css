@@ -424,4 +424,197 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
         justify-content: center; 
     }
    }
+/* ==========================================================================
+   8. SHOP SECTION (Estilos del Catálogo)
+   ========================================================================== */
+.shop-section {
+    padding: 100px 0;
+    background-color: var(--color-bg);
+    position: relative;
+}
+
+/* --- ENCABEZADO DE SECCIÓN --- */
+.section-header {
+    text-align: center;
+    margin-bottom: 50px;
+    max-width: 800px;
+    margin-left: auto; 
+    margin-right: auto;
+}
+
+.section-subtitle {
+    display: block;
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    color: var(--color-accent); /* Verde Oliva */
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.section-header h2 {
+    font-family: var(--font-display); /* Gótica */
+    font-size: 3.5rem;
+    line-height: 1;
+    margin-bottom: 20px;
+}
+
+.section-line {
+    width: 60px;
+    height: 2px;
+    background: #000;
+    margin: 0 auto;
+}
+
+/* --- FILTROS --- */
+.filters-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 60px;
+    flex-wrap: wrap; /* Para que baje en celulares chicos */
+}
+
+.filter-btn {
+    padding: 10px 25px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: transparent;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    color: var(--color-text-light);
+    transition: 0.3s ease;
+    border-radius: 30px; /* Botones redonditos tipo "Pill" */
+}
+
+.filter-btn:hover {
+    border-color: #000;
+    color: #000;
+}
+
+.filter-btn.active {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* --- GRILLA DE PRODUCTOS --- */
+.products-grid {
+    display: grid;
+    /* MAGIA RESPONSIVE:
+       - minmax(280px, 1fr) significa: "Hacé columnas de mínimo 280px".
+       - Si entran 4, pone 4. Si entra 1 (celular), pone 1.
+    */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 50px 30px; /* Espacio Vertical 50px, Horizontal 30px */
+    margin-bottom: 60px;
+}
+
+/* --- TARJETA DE PRODUCTO (Card) --- */
+.product-card {
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+/* Contenedor de la Imagen */
+.card-image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4/5; /* Formato Instagram Vertical (Ideal ropa) */
+    background-color: #f4f4f4; /* Gris mientras carga */
+    overflow: hidden; /* Para que el zoom no se salga del cuadro */
+    margin-bottom: 15px;
+    border-radius: var(--border-radius);
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Efecto Hover: Zoom en la foto */
+.product-card:hover .card-image img {
+    transform: scale(1.08);
+}
+
+/* Badge "NUEVO" */
+.badge-new {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #fff;
+    color: #000;
+    font-size: 0.6rem;
+    font-weight: 800;
+    padding: 5px 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    z-index: 2;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* Información del Producto */
+.product-info {
+    text-align: left;
+}
+
+.product-info h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    letter-spacing: 0.5px;
+}
+
+.product-price {
+    font-size: 0.95rem;
+    color: var(--color-text-light);
+    margin-bottom: 5px;
+}
+
+.product-installments {
+    font-size: 0.75rem;
+    color: var(--color-accent); /* Resaltamos las cuotas */
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* --- BOTÓN FINAL "VER TODO" --- */
+.shop-footer {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.btn-outline-dark {
+    padding: 15px 40px;
+    border: 1px solid #000;
+    color: #000;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.8rem;
+    transition: 0.3s;
+    display: inline-block;
+}
+
+.btn-outline-dark:hover {
+    background: #000;
+    color: #fff;
+}
+
+/* AJUSTE PARA MÓVIL (Títulos más chicos) */
+@media (max-width: 768px) {
+    .section-header h2 { font-size: 2.5rem; }
+    
+    /* En celular, la grilla de 2 columnas queda mejor tipo "Zara" */
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px 10px;
+    }
+    
+    .product-info h3 { font-size: 0.85rem; }
+}
 

@@ -17,7 +17,7 @@ const productos = [
         // Categorías disponibles: 'remeras', 'hoodies', 'accesorios', 'pantalones'
         categoria: "remeras", 
         // Nombre exacto de la foto en la carpeta assets/img/
-        imagen: "assets/img/remera-blanca.jpg", 
+        imagen: "Assets/img/remera-blanca.jpg", 
         nuevo: true, // Si ponés true, sale la etiqueta "NUEVO"
         cuotas: "3 cuotas sin interés"
     },
@@ -26,7 +26,7 @@ const productos = [
         nombre: "Hoodie 'Eden' Heavyweight",
         precio: 52000,
         categoria: "hoodies",
-        imagen: "assets/img/hoodie-negro.jpg",
+        imagen: "Assets/img/hoodie-negro.jpg",
         nuevo: true,
         cuotas: "3 y 6 cuotas sin interés"
     },
@@ -35,7 +35,7 @@ const productos = [
         nombre: "Gorra Trucker HP Logo",
         precio: 15000,
         categoria: "accesorios",
-        imagen: "assets/img/gorra.jpg",
+        imagen: "Assets/img/gorra.jpg",
         nuevo: false, // false = no muestra etiqueta
         cuotas: "3 cuotas sin interés"
     },
@@ -44,7 +44,7 @@ const productos = [
         nombre: "Remera 'Siembra' Black",
         precio: 28000,
         categoria: "remeras",
-        imagen: "assets/img/remera-negra.jpg",
+        imagen: "Assets/img/remera-negra.jpg",
         nuevo: false,
         cuotas: "3 cuotas sin interés"
     },
@@ -53,7 +53,7 @@ const productos = [
         nombre: "Buzo Crewneck 'Fe'",
         precio: 45000,
         categoria: "hoodies",
-        imagen: "assets/img/buzo-gris.jpg",
+        imagen: "Assets/img/buzo-gris.jpg",
         nuevo: true,
         cuotas: "3 y 6 cuotas sin interés"
     },
@@ -62,9 +62,18 @@ const productos = [
         nombre: "Piluso 'Holy' Reversible",
         precio: 12000,
         categoria: "accesorios",
-        imagen: "assets/img/piluso.jpg",
+        imagen: "Assets/img/piluso.jpg",
         nuevo: false,
         cuotas: null // Si no querés mostrar cuotas, poné null
+    },
+    {
+        id: 7,
+        nombre: " prueba 7",
+        precio: 52000,
+        categoria: "hoodies",
+        imagen: "Assets/img/hoodie-negro.jpg",
+        nuevo: true,
+        cuotas: "3 y 6 cuotas sin interés"
     }
 ];
 

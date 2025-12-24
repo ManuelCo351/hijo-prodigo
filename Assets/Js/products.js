@@ -69,5 +69,5 @@ const productos = [
 ];
 
 // NO BORRAR ESTA LÍNEA FINAL (Es necesaria para que funcione la web)
-// window.productos = productos; 
+ window.productos = productos; 
 

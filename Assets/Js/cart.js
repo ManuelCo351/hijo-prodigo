@@ -123,3 +123,60 @@ document.addEventListener("DOMContentLoaded", () => {
     // INICIALIZAR
     renderCart();
 });
+    // ==============================================
+    // 6. CHECKOUT CON MERCADO PAGO (Integración Pro)
+    // ==============================================
+    
+    // INICIALIZAR SDK (Usá tu PUBLIC KEY acá, esa sí se puede mostrar)
+    const mp = new MercadoPago('TU_PUBLIC_KEY_ACA', {
+        locale: 'es-AR'
+    });
+
+    const checkoutBtn = document.getElementById("checkout-btn");
+
+    checkoutBtn.addEventListener("click", async () => {
+        
+        // 1. VALIDACIÓN
+        if (cart.length === 0) {
+            alert("Tu bolsa está vacía 😔");
+            return;
+        }
+
+        // Feedback visual (Cargando...)
+        const originalText = checkoutBtn.textContent;
+        checkoutBtn.textContent = "PROCESANDO...";
+        checkoutBtn.disabled = true;
+
+        try {
+            // 2. PEDIR PREFERENCIA AL BACKEND (Nuestra API en Vercel)
+            const response = await fetch('/api/checkout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ items: cart }), // Mandamos el carrito
+            });
+
+            const data = await response.json();
+
+            if (data.id) {
+                // 3. ABRIR CHECKOUT DE MERCADO PAGO
+                mp.checkout({
+                    preference: {
+                        id: data.id
+                    },
+                    autoOpen: true, // Se abre solito
+                });
+            } else {
+                alert("Hubo un error al generar el pago. Intenta de nuevo.");
+            }
+
+        } catch (error) {
+            console.error(error);
+            alert("Error de conexión. Revisá tu internet.");
+        } finally {
+            // Volver botón a la normalidad
+            checkoutBtn.textContent = originalText;
+            checkoutBtn.disabled = false;
+        }
+    });

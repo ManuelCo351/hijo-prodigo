@@ -1,29 +1,29 @@
 /* ==============================================
-   LÓGICA DEL CARRITO DE COMPRAS
+   LÓGICA DEL CARRITO + CHECKOUT MERCADO PAGO
    ============================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
     
     // 1. VARIABLES GLOBALES
-    let cart = JSON.parse(localStorage.getItem("hijoProdigoCart")) || []; // Carga del navegador o inicia vacío
+    let cart = JSON.parse(localStorage.getItem("hijoProdigoCart")) || []; 
     
     const cartDrawer = document.getElementById("cart-drawer");
     const cartOverlay = document.getElementById("cart-overlay");
     const cartItemsContainer = document.getElementById("cart-items-container");
     const cartTotalPrice = document.getElementById("cart-total-price");
     const cartCountHeader = document.getElementById("cart-count-header");
-    const cartBadges = document.querySelectorAll(".cart-badge"); // Los numeritos rojos en el header
+    const cartBadges = document.querySelectorAll(".cart-badge"); 
     
-    // Botones para abrir/cerrar
-    const openCartBtns = document.querySelectorAll(".cart-wrapper button, #cart-btn button"); // Selectores del icono bolsa
+    const openCartBtns = document.querySelectorAll(".cart-wrapper button, #cart-btn button");
     const closeCartBtn = document.getElementById("close-cart-btn");
     const continueBtn = document.getElementById("continue-shopping");
+    const checkoutBtn = document.getElementById("checkout-btn"); // Lo traemos acá arriba
 
     // 2. FUNCIONES DE APERTURA / CIERRE
     function openCart() {
         cartDrawer.classList.add("active");
         cartOverlay.classList.add("active");
-        document.body.style.overflow = "hidden"; // Bloquea el scroll de la página
+        document.body.style.overflow = "hidden"; 
     }
 
     function closeCart() {
@@ -32,16 +32,14 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.style.overflow = "auto";
     }
 
-    // Event Listeners para abrir
     openCartBtns.forEach(btn => btn.addEventListener("click", openCart));
-    // Event Listeners para cerrar
     closeCartBtn.addEventListener("click", closeCart);
     continueBtn.addEventListener("click", closeCart);
     cartOverlay.addEventListener("click", closeCart);
 
-    // 3. RENDERIZAR CARRITO (Dibujar los productos)
+    // 3. RENDERIZAR CARRITO
     function renderCart() {
-        cartItemsContainer.innerHTML = ""; // Limpiar
+        cartItemsContainer.innerHTML = ""; 
         let total = 0;
         let totalItems = 0;
 
@@ -52,7 +50,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 total += item.price * item.quantity;
                 totalItems += item.quantity;
 
-                // HTML de cada item
                 const itemHTML = `
                 <div class="cart-item">
                     <img src="${item.image}" alt="${item.name}">
@@ -77,18 +74,14 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
 
-        // Actualizar Totales
         cartTotalPrice.textContent = `$ ${total.toLocaleString('es-AR')}`;
         cartCountHeader.textContent = totalItems;
         cartBadges.forEach(badge => badge.textContent = totalItems);
 
-        // Guardar en LocalStorage (Memoria del navegador)
         localStorage.setItem("hijoProdigoCart", JSON.stringify(cart));
     }
 
-    // 4. FUNCIONES GLOBALES (Para poder usarlas desde el HTML onclick)
-    
-    // Actualizar Cantidad
+    // 4. FUNCIONES GLOBALES (Window)
     window.updateQty = (index, change) => {
         if (cart[index].quantity + change > 0) {
             cart[index].quantity += change;
@@ -96,43 +89,34 @@ document.addEventListener("DOMContentLoaded", () => {
         renderCart();
     };
 
-    // Eliminar Item
     window.removeItem = (index) => {
         cart.splice(index, 1);
         renderCart();
     };
 
-    // 5. FUNCIÓN EXPORTABLE: AGREGAR AL CARRITO
-    // Esta función la llamaremos desde product.html
     window.addToCart = (productObj) => {
-        // Verificar si ya existe el mismo producto con mismo talle
         const existingItemIndex = cart.findIndex(item => item.id === productObj.id && item.size === productObj.size);
 
         if (existingItemIndex > -1) {
-            // Si ya existe, sumamos cantidad
             cart[existingItemIndex].quantity += productObj.quantity;
         } else {
-            // Si no, lo agregamos nuevo
             cart.push(productObj);
         }
 
         renderCart();
-        openCart(); // Abrimos el carrito para confirmar
+        openCart(); 
     };
 
-    // INICIALIZAR
     renderCart();
-});
+
     // ==============================================
-    // 6. CHECKOUT CON MERCADO PAGO (Integración Pro)
+    // 6. CHECKOUT CON MERCADO PAGO (Integrado Correctamente)
     // ==============================================
     
-    // INICIALIZAR SDK (Usá tu PUBLIC KEY acá, esa sí se puede mostrar)
+    // IMPORTANTE: Reemplazá 'TU_PUBLIC_KEY_ACA' por tu clave pública real
     const mp = new MercadoPago('TU_PUBLIC_KEY_ACA', {
         locale: 'es-AR'
     });
-
-    const checkoutBtn = document.getElementById("checkout-btn");
 
     checkoutBtn.addEventListener("click", async () => {
         
@@ -142,30 +126,29 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // Feedback visual (Cargando...)
         const originalText = checkoutBtn.textContent;
         checkoutBtn.textContent = "PROCESANDO...";
         checkoutBtn.disabled = true;
 
         try {
-            // 2. PEDIR PREFERENCIA AL BACKEND (Nuestra API en Vercel)
+            // 2. PEDIR PREFERENCIA A VERCEL
             const response = await fetch('/api/checkout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ items: cart }), // Mandamos el carrito
+                body: JSON.stringify({ items: cart }), 
             });
 
             const data = await response.json();
 
             if (data.id) {
-                // 3. ABRIR CHECKOUT DE MERCADO PAGO
+                // 3. ABRIR CHECKOUT
                 mp.checkout({
                     preference: {
                         id: data.id
                     },
-                    autoOpen: true, // Se abre solito
+                    autoOpen: true, 
                 });
             } else {
                 alert("Hubo un error al generar el pago. Intenta de nuevo.");
@@ -175,8 +158,10 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error(error);
             alert("Error de conexión. Revisá tu internet.");
         } finally {
-            // Volver botón a la normalidad
             checkoutBtn.textContent = originalText;
             checkoutBtn.disabled = false;
         }
     });
+
+}); // <--- ¡AQUÍ CIERRA TODO EL DOCUMENTO!
+                          

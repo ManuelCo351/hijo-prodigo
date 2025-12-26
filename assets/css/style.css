@@ -1340,3 +1340,36 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
         gap: 30px;
     }
 }
+/* =========================================
+   CORRECCIONES PARA CELULAR (Hero Section)
+   ========================================= */
+
+@media (max-width: 768px) {
+    /* Achicamos el Título Gigante */
+    .hero-content h1 {
+        font-size: 3.2rem; /* Bajamos de 5.5rem a 3.2rem */
+        line-height: 1.1;
+        width: 100%;
+        word-wrap: break-word; /* Evita que se corte la palabra si es muy larga */
+    }
+
+    /* Achicamos el texto de abajo */
+    .hero-content p {
+        font-size: 1rem;
+        padding: 0 15px; /* Un poco de aire a los costados */
+    }
+
+    /* Ajustamos los botones para que no se amontonen */
+    .hero-btns {
+        flex-direction: column; /* Uno abajo del otro en vez de al lado */
+        gap: 15px;
+        padding: 0 20px;
+    }
+
+    .btn-primary, .btn-outline {
+        width: 100%; /* Botones anchos para tocar fácil con el dedo */
+        padding: 15px 0;
+        justify-content: center;
+    }
+   }
+       

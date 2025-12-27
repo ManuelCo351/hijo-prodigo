@@ -24,9 +24,9 @@ export default async function handler(req, res) {
         body: {
           items: itemsProcesados,
           back_urls: {
-            success: "https://hijo-prodigo.vercel.app/", // A dónde vuelve si paga bien
-            failure: "https://hijo-prodigo.vercel.app/",
-            pending: "https://hijo-prodigo.vercel.app/"
+            success: "https://tienda-urb.vercel.app/", // A dónde vuelve si paga bien
+            failure: "https://tienda-urb.vercel.app/",
+            pending: "https://tienda-urb.vercel.app/"
           },
           auto_return: "approved",
         }
